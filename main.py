@@ -23,6 +23,18 @@ class ProductRange(Enum):
     Solen_HeptaLitz_14AWG =103
     Solen_HeptaLitz_12AWG =104
 
+# This stores the generic specification of a component. Will be specialized to C/L/R later on
+class ComponentSpec:
+    def __init__(self, type, range):
+        self.type = type
+        self.range = range
+        pass
+
+class CapacitorComponent (ComponentSpec):
+    def __init__(self, type, range, Value):
+        ComponentSpec.__init__(type, range)
+        pass
+
 class Capacitor:
     def __init__(self, name, price, value, href):
         self.name = name
@@ -83,6 +95,7 @@ class ProductList:
             prod_name = product.find("a", {"class": "prodname"})
             if (prod_name):
                 print("found product %s" % (prod_name.text))
+                print("product has href=%s" %(prod_name["href"]))
             else:
                 print("FAILED\n")
             prod_price = product.find("span", {"class": "saleprice"}).text
@@ -97,7 +110,7 @@ class ProductList:
                 prod_value = re.search("([0-9\.]+)u[fF]", prod_name.text)
                 if prod_value:
                     prod_value = prod_value.group(1)
-                    self.product_list.append(Capacitor(prod_name.text, prod_price, prod_value, ""))
+                    self.product_list.append(Capacitor(prod_name.text, prod_price, prod_value, prod_name["href"]))
                 else:
                     print ("BAD: " + prod_name.text)
 
@@ -121,8 +134,6 @@ class ProductList:
 
         # Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
     print (str(Vendors.PartsConnexion).split(".")[1])
 
     product_list = [
