@@ -23,12 +23,6 @@ class ProductRange(Enum):
     Solen_HeptaLitz_14AWG =103
     Solen_HeptaLitz_12AWG =104
 
-
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
 class Capacitor:
     def __init__(self, name, price, value, href):
         self.name = name
